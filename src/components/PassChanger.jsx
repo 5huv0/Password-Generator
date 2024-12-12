@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
-export default function MainPage() {
+export default function MainPage() {                                        // useState is used to change the state of functions
 
-  const [length , setLength] = useState(8) // this is for the length slider
-  const [charAllowed , setcharAllowed] = useState(false) // this is for the char checkbox
-  const [numAllowed , setnumAllowed] = useState(false) // this is for the num checkbox
-  const [password , setPassword] = useState(" ") // this is for the pass input box
+  const [length , setLength] = useState(8)                                  // this is for the length slider
+  const [charAllowed , setcharAllowed] = useState(false)                    // this is for the char checkbox
+  const [numAllowed , setnumAllowed] = useState(false)                      // this is for the num checkbox
+  const [password , setPassword] = useState(" ")                            // this is for the pass input box
 
   const passGenerator = useCallback(() => {
     let pass = ""
-    let str = "ABCDEFGHIOJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    let str = "ABCDEFGHIOJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"      // useCallback Memoize functions to avoid recreation.
 
     if(numAllowed){
      str += "0123456789" 
@@ -29,7 +29,7 @@ export default function MainPage() {
   }, [length, charAllowed, numAllowed, setPassword])
 
   useEffect(() => {
-    passGenerator()
+    passGenerator()                                                          // useEffect Fetch data
   }, [length, numAllowed, charAllowed, passGenerator])
 
 
