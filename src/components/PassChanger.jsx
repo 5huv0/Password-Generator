@@ -1,15 +1,27 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
-export default function MainPage() {                                        // useState is used to change the state of functions
+export default function MainPage() {   
+
+  
+  // useRef --------- useRef is used for References
+
+
+  const passRef = useRef(null)
+
+
+  // useState Hook ------ useState is used to change the state of functions
 
   const [length , setLength] = useState(8)                                  // this is for the length slider
   const [charAllowed , setcharAllowed] = useState(false)                    // this is for the char checkbox
   const [numAllowed , setnumAllowed] = useState(false)                      // this is for the num checkbox
   const [password , setPassword] = useState(" ")                            // this is for the pass input box
 
+
+  // useCallback Hook ------ useCallback Memoize functions to avoid recreation.
+
   const passGenerator = useCallback(() => {
     let pass = ""
-    let str = "ABCDEFGHIOJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"      // useCallback Memoize functions to avoid recreation.
+    let str = "ABCDEFGHIOJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"      
 
     if(numAllowed){
      str += "0123456789" 
@@ -26,28 +38,41 @@ export default function MainPage() {                                        // u
 
     setPassword(pass)
 
-  }, [length, charAllowed, numAllowed, setPassword])
+  }, [length , numAllowed , charAllowed, setPassword])
+
+  const copyPass = useCallback(() => {
+    passRef.current?.select()
+    // passRef.current?.setSelectionRange(0, 5) // this line is for manually select option using range
+    window.navigator.clipboard.writeText(password)
+  } ,[password])
+
+
+  // useEffect Hook ------ useEffect Fetch data
+
 
   useEffect(() => {
-    passGenerator()                                                          // useEffect Fetch data
-  }, [length, numAllowed, charAllowed, passGenerator])
+    passGenerator()                                                          
+  }, [length , numAllowed, charAllowed, passGenerator])
 
 
   return (
     <div>
-      <div className='bg-slate-700 text-white p-9'>
-
+      <div className='bg-slate-700 text-white p-9 m-7'>
+        <p className='flex justify-center p-2 text-amber-300 text-5xl font-bold'>Password Generator</p>
         <div className='m-4 flex justify-center'>
           <label >
             <input
             type="text"
             value={password}
+            ref={passRef}
             className='p-3 outline-none rounded-l-lg text-black' 
             readOnly 
             style={{width:'600px'}} />
-            <button className='bg-black text-white p-3 w-100 rounded-r-lg
-
-'>copy</button>
+            <button
+            className='bg-black text-white p-3 w-100 rounded-r-lg hover:bg-black active:bg-gray-500'
+            onClick={copyPass}>
+              copy
+            </button>
           </label>          
         </div>
 
