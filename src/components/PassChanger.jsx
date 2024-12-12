@@ -37,7 +37,7 @@ export default function MainPage() {                                        // u
     <div>
       <div className='bg-slate-700 text-white p-9'>
 
-        <div className='m-4'>
+        <div className='m-4 flex justify-center'>
           <label >
             <input
             type="text"
